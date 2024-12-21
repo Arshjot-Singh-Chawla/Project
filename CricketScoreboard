@@ -1,0 +1,79 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    int totalRuns;
+    int totalWickets;
+    int overs;  
+    int balls;  
+} CricketScore;
+
+void updateScore(CricketScore *score, int runs) {
+    score->totalRuns += runs;  
+    score->balls++;  
+    
+        if (score->balls == 6) {
+        score->overs++;
+        score->balls = 0;  
+    }
+}
+
+void updateWickets(CricketScore *score) {
+    score->totalWickets++; 
+}
+
+void displayScore(CricketScore score) {
+    printf("\nCurrent Score: %d/%d\n", score.totalRuns, score.totalWickets);
+    printf("Overs: %d.%d\n", score.overs, score.balls);  
+}
+
+int main() {
+    CricketScore score = {0, 0, 0, 0};  
+    int runs, choice;
+
+    printf("Welcome to the Cricket Scoreboard\n");
+    
+        while (1) {
+        
+        printf("\nMenu:\n");
+        printf("1. Add runs\n");
+        printf("2. Add a wicket\n");
+        printf("3. Display current score\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        
+        switch (choice) {
+            case 1:
+                printf("Enter runs scored (0-6): ");
+                scanf("%d", &runs);
+                
+                if (runs < 0 || runs > 6) {
+                    printf("Invalid runs. Runs must be between 0 and 6.\n");
+                } else {
+                    updateScore(&score, runs);  
+                }
+                break;
+                
+            case 2:
+                
+                updateWickets(&score);
+                break;
+                
+            case 3:
+                
+                displayScore(score);
+                break;
+                
+            case 4:
+                
+                printf("Exiting the scoreboard...\n");
+                return 0;
+                
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    }
+
+    return 0;
+}
